@@ -49,10 +49,9 @@ class NodeMgmt:
 
     def desc(self):
         node = self.header
-        while node.next:
+        while node:
             print(node.data)
             node = node.next
-        print(node.data)
             
 
 linkedList = NodeMgmt(0)

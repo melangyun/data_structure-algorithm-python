@@ -1,19 +1,25 @@
 queue_list = list()
 
-def enqueue(data):
-    queue_list.append(data)
+class Queue:
+    def __init__(self):
+        self.queue = []
+    
+    def enqueue(self,data):
+        self.queue.append(data)
 
-def dequeue():
-    data = queue_list[0]
-    del queue_list[0]
-    return data
+    def dequeue(self):
+        data = self.queue[0]
+        del self.queue[0]
+        return data
 
-for i in range(10):
-    enqueue(i)
+    def desc(self):
+        for i in range(len(self.queue)):
+            print(self.queue[i])
 
+queue = Queue()
+for i in range(4):
+    queue.enqueue(i)
 
-print(len(queue_list))
-# 10
-
-print(dequeue())
-# 0
+queue.desc()
+queue.dequeue()
+queue.desc()

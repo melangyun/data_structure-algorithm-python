@@ -39,7 +39,7 @@ class LinkedList:
         
         node = self.head
         while node:
-            if node.data == data:
+            if node.data[0] == data:
                 return node
             else:
                 node = node.next
@@ -61,23 +61,42 @@ class HashTable:
         hash_address = self.hash_function(self.get_key(data))
         linked_list = self.hash_table[hash_address]
         if not linked_list:
-            self.hash_table[hash_address] = LinkedList(value)
+            # 만일 hash_table[n]에 있는게 없다면 새 링크드 리스트를 넣고 끝냄
+            self.hash_table[hash_address] = LinkedList([data, value])
         else:
-            linked_list.add(value)
+            node = linked_list.search(data)
+            # 이미 존재하는 data라면, node가, 그렇지 않다면 False가 될것임
+            if node:
+                node.data[1] = value
+            else:
+                linked_list.add(value)
 
-    def read_data(self, data, value):
+    def read_data(self, data):
         hash_address = self.hash_function(self.get_key(data))
         linked_list =  self.hash_table[hash_address]
-        node = linked_list.search(value)
-        return node.data
+        if not linked_list:
+            # 만일 hash_table[n]에 있는게 없다면(0이라면) linkedList 를 찾아볼 필요 없이 종료
+            return False
+        node = linked_list.search(data)
+        if not node:
+            # node가 False라면 False 리턴 
+            return False
+        
+        return node.data[1]
 
     def desc(self):
         print(self.hash_table)
         
 
-hash_table = HashTable(2)
-hash_table.save_data("윤정", "01045115625")
+hash_table = HashTable(10)
+hash_table.save_data("김아무개", "01001928374")
+hash_table.save_data("최윤정", "01098765432")
+hash_table.save_data("김아무개", "01012345678")
 hash_table.desc()
-print(hash_table.read_data("윤정","01045115625"))
-# 01045115625
-
+hash_table.save_data("최윤정", "01054677123")
+print(hash_table.read_data("윤정"))
+# False
+print(hash_table.read_data("김아무개"))
+# 01012345678
+print(hash_table.read_data("최윤정"))
+# 01054677123

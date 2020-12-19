@@ -33,3 +33,9 @@ class Heap:
             inserted_idx = parent_idx
 
         return True
+
+    def pop(self):
+        if len(self.heap_array) <= 1:
+            return None
+        returned_data = self.heap_array[1]
+        return returned_data
